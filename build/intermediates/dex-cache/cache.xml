@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="e4d0cbb0b999604b349062f0214a0a228a7fd151">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.2.1_c101636def0012051a6c58f47d79ae2ccd667006\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Dhruv Thakkar\.gradle\caches\modules-2\files-2.1\com.firebase\firebase-client-jvm\2.5.2\91731b8f5868a3e8a8a773f29b8d06b5c358f5bb\firebase-client-jvm-2.5.2.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="91731b8f5868a3e8a8a773f29b8d06b5c358f5bb">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\firebase-client-jvm-2.5.2_fef8233cf673d08fa420d5e37a6d104b47d4abd6\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="df15e1f0eb5c017538deda7cdc3de6123d8ba334">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_63abfeb191d04ec9fb0eca9014181d30ee5ae6be\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="e3885783ff8926ed9e2fdcd16816c2e1e73e7aee">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-23.2.1_eb31451504a0eb05389f2b17d05b2aa75e8de1eb\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="673d77a5bbddd766037f088e775df525c46407f0">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-23.2.1_8908da58f29625bebf2316d7e447b1eb8fdab4fb\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="90a62124213fde68ca6d2af8799eaa460b928b07">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_fdcc6e1e6df9e957314e31d3b9e9158f620daaae\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="3be474b1b21b31cf2fa93fe6bd641ae108d96452">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.2.1_828a2e1e0118acd331ec98c1eb5fbfcfd8d1c045\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\jars\libs\internal_impl-23.2.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="607a3d0b8013b4ccbfeb0b7cb293351994e021fb">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.2.1_eb11e34e99c05beb687d2d841ba34eefc0e92e5c\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Dhruv Thakkar\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-databind\2.2.2\3c8f6018eaa72d43b261181e801e6f8676c16ef6\jackson-databind-2.2.2.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="3c8f6018eaa72d43b261181e801e6f8676c16ef6">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\jackson-databind-2.2.2_a19396abd26f7896e635b512a2eb4291eace7b2b\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Dhruv Thakkar\.gradle\caches\modules-2\files-2.1\com.firebase\firebase-client-android\2.5.2\f19f10d6276aa0b380e2d05d2ab3272d693a5433\firebase-client-android-2.5.2.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f19f10d6276aa0b380e2d05d2ab3272d693a5433">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\firebase-client-android-2.5.2_a4356bf59db6cc259549ea058f3c90c28265e008\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="3469cb457f10f74c28cbc05f069b6c894f6cbdd0">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-23.2.1_f89e7bc78d7a6dd5a4b5afd7dc9514104302f2b4\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Dhruv Thakkar\.gradle\caches\modules-2\files-2.1\com.firebase\tubesock\0.0.12\6ec0bbd3e161a73ed672284b587fd32309a86d7a\tubesock-0.0.12.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="6ec0bbd3e161a73ed672284b587fd32309a86d7a">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\tubesock-0.0.12_49ee3df8aedcb8341df9268bb04ff4b7d285a5a2\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Dhruv Thakkar\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-core\2.2.2\d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b\jackson-core-2.2.2.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="d20be6a5ddd6f8cfd36ebf6dea329873a1c41f1b">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\jackson-core-2.2.2_0a5dbc93d779b3d41ab0a3e905fb4967cc61c1e4\classes.dex" />
+    </item>
+    <item
+        jar="C:\Android\extras\android\m2repository\com\android\support\support-annotations\23.2.1\support-annotations-23.2.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ccb693bc0774fcb637246f7360de25b4af7df318">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.2.1_dd411df92b5f3e543b1ce045b057909cc4d73672\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Dhruv Thakkar\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-annotations\2.2.2\285cb9c666f0f0f3dd8a1be04e1f457eb7b15113\jackson-annotations-2.2.2.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="285cb9c666f0f0f3dd8a1be04e1f457eb7b15113">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\jackson-annotations-2.2.2_1622f8c3adee5821e0579f78b876c4d97efa81c4\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\exploded-aar\com.android.support\design\23.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="72961d8b453b46e277702f18de9d210bc019e36e">
+        <dex dex="C:\Users\Dhruv Thakkar\Google Drive\Android_Projects\MoneyManagement\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-23.2.1_b138ec23d8c5bf51631bf5cc65403ab82be42326\classes.dex" />
+    </item>
+
+</items>
