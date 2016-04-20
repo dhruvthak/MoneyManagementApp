@@ -3,6 +3,7 @@ package app.buzzboy.com.moneymanagement.Ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -21,7 +22,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+
+import app.buzzboy.com.moneymanagement.Application.Person;
+import app.buzzboy.com.moneymanagement.Connectivity.FBase;
 import app.buzzboy.com.moneymanagement.R;
+import app.buzzboy.com.moneymanagement.Utils.Constants;
+import app.buzzboy.com.moneymanagement.Utils.LogUtils;
 import app.buzzboy.com.moneymanagement.Utils.UserDataGrabberUtils;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -56,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private View mRegister;
     private View mForgotPassView;
     private View mEmailSignInView;
+    Firebase myFireBRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +74,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Email Field
         mEmailView = (AutoCompleteTextView) findViewById(R.id.login_Email);
 
-
-
+        myFireBRef.setAndroidContext(this);
         // Register Button
         mRegister = findViewById(R.id.login_register);
 
@@ -95,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
         mRegister.setOnClickListener(this);
-        mForgotPassView = (TextView)findViewById(R.id.login_forgotpass);
+        mForgotPassView = (TextView) findViewById(R.id.login_forgotpass);
         mForgotPassView.setOnClickListener(this);
 
         populateAutoComplete();
@@ -103,24 +110,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             // Register Button
             case R.id.login_register:
-                Intent i = new Intent(this,RegisterActivity.class);
+                Intent i = new Intent(this, RegisterActivity.class);
                 startActivity(i);
                 break;
             case R.id.login_signin:
                 attemptLogin();
                 break;
             case R.id.login_forgotpass:
-                i = new Intent(this,ForgotPassword.class);
+                i = new Intent(this, ForgotPassword.class);
                 startActivity(i);
                 break;
         }
     }
 
     private boolean mayRequestContacts() {
-    // Check for permission if the version is loew than Android M or check if the permission already accepted or ask now
+        // Check for permission if the version is loew than Android M or check if the permission already accepted or ask now
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
@@ -142,12 +149,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return true;
     }
 
-    private void populateAutoComplete(){
+    private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
         }
         mEmailView.setAdapter(UserDataGrabberUtils.getUserDetails(LoginActivity.this));
     }
+
     /**
      * Callback received when a permissions request has been completed.
      */
@@ -210,8 +218,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            Person p = new Person();
+            p.setEmail(email);
+            p.setPass(password);
+
+
+            myFireBRef = new Firebase(Constants.myFireBRef);
+            myFireBRef.child("Person").setValue(p);
+            /*mAuthTask = new UserLoginTask(email, password, getApplicationContext());
+            if(Build.VERSION.SDK_INT >= 11){
+                mAuthTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+            else{
+                mAuthTask.execute((Void) null);
+            }*/
+
         }
     }
 
@@ -268,35 +289,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
+        Person p;
+        FBase fobject;
+        String result;
+        String mail;
+        String pass;
+        Firebase myFireBRef;
+        String status = null;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
+        UserLoginTask(String email, String password, Context ctx) {
+            //mail = p.getEmail();
+            //pass = p.getPass();
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Boolean doInBackground(Void... String) {
             // TODO: attempt authentication against a network service.
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+
+            } catch (Exception e) {
+                LogUtils.log("Error", e.getMessage());
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return false;
+            return true;
         }
 
         @Override
@@ -306,16 +323,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             if (success) {
                 finish();
+                Toast.makeText(getApplicationContext(), "It Worked", Toast.LENGTH_LONG).show();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
             }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
         }
     }
 }
