@@ -153,7 +153,11 @@ public class Transaction {
         Transaction.ref = ref;
     }
 
-    public String getpos(Transaction t) {
-        return t.uid;
+    public void modify(String s) {
+        if (!s.equals(null)) {
+            Firebase trans_ref = new Firebase(s);
+
+            trans_ref.setValue(this);
+        }
     }
 }

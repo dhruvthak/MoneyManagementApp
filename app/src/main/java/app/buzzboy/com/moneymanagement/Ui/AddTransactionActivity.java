@@ -39,13 +39,14 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
     Handler handler = new Handler();
     EditText note;
     EditText loc;
-    int status_flag = 0;
+    boolean status_flag = false;
+    String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_transaction);
-
+        query = null;
         loc = (EditText) findViewById(R.id.trans_location);
         amt = (EditText) findViewById(R.id.trans_amt);
         cat_selection = (EditText) findViewById(R.id.category_selection);
@@ -76,8 +77,9 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
 
         Intent i = getIntent();
         if (i.hasExtra("state")) {
-            status_flag = 1;
-            Toast.makeText(getApplicationContext(), i.getExtras().getString("uid"), Toast.LENGTH_LONG).show();
+            status_flag = true;
+            Toast.makeText(getApplicationContext(), i.getExtras().getString("pos"), Toast.LENGTH_LONG).show();
+            query = i.getExtras().getString("pos");
             cat_selection.setText(i.getExtras().getString("category"));
             note.setText(i.getExtras().getString("note"));
             displayDate.setText(i.getExtras().getString("date"));
@@ -132,17 +134,24 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
                     public void run() {
                         try {
                             //LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-
-                            Map location = new HashMap();
-                            double lon = 00;//location.getLongitude();
-                            double lat = 00;//location.getLatitude();
-                            location.put("lat", Double.toString(lat));
-                            location.put("lon", Double.toString(lon));
+                            if (status_flag) {
 
 
-                            //handler.post(this);
-                            Transaction t = new Transaction(Integer.parseInt(amt.getText().toString()), cat_selection.getText().toString(), note.getText().toString(), displayDate.getText().toString(), location);
-                            boolean result = t.postTransaction();
+                                //handler.post(this);
+                                Transaction t = new Transaction(Integer.parseInt(amt.getText().toString()), cat_selection.getText().toString(), note.getText().toString(), displayDate.getText().toString(), null);
+                                t.modify(query);
+                            } else {
+                                Map location = new HashMap();
+                                double lon = 00;//location.getLongitude();
+                                double lat = 00;//location.getLatitude();
+                                location.put("lat", Double.toString(lat));
+                                location.put("lon", Double.toString(lon));
+
+
+                                //handler.post(this);
+                                Transaction t = new Transaction(Integer.parseInt(amt.getText().toString()), cat_selection.getText().toString(), note.getText().toString(), displayDate.getText().toString(), location);
+                                boolean result = t.postTransaction();
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

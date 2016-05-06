@@ -13,7 +13,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,15 +74,7 @@ public class TransactionsView extends AppCompatActivity
 
                 tv.nameText2.setText(Integer.toString(t.getAmount()), TextView.BufferType.NORMAL);
                 tv.nameText4.setText(t.getCategory(), TextView.BufferType.NORMAL);
-                final int pos = position;
-                tv.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.w("lolol", "You clicked on " + pos);
-                        //fadapter.getRef(pos).removeValue();
-                    }
-                });
-
+                tv.nameTextHidden.setText(String.valueOf(this.getRef(position)), TextView.BufferType.NORMAL);
             }
 
             @Override
@@ -106,8 +97,9 @@ public class TransactionsView extends AppCompatActivity
                 i.putExtra("category", t.getCategory());
                 i.putExtra("note", t.getNote());
                 i.putExtra("date", t.getDate());
-                i.putExtra("location", t.getLocation().toString());
-                i.putExtra("uid", t.getpos(t));
+                //i.putExtra("location", t.getLocation().toString());
+                //i.putExtra("uid", ((TextView)view.findViewById(R.id.hidden)).getText().toString());
+                i.putExtra("pos", ((TextView) view.findViewById(R.id.hidden)).getText().toString());
                 i.putExtra("state", "edit");
                 startActivity(i);
             }
@@ -182,13 +174,14 @@ public class TransactionsView extends AppCompatActivity
 
         TextView nameText2;
         TextView nameText4;
+        TextView nameTextHidden;
 
 
         public TransactionViewHolder(View itemView) {
             super(itemView);
             nameText2 = (TextView) itemView.findViewById(R.id.amt);
             nameText4 = (TextView) itemView.findViewById(R.id.cat);
-            itemView = itemView;
+            nameTextHidden = (TextView) itemView.findViewById(R.id.hidden);
         }
     }
 

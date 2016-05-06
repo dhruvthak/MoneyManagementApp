@@ -36,4 +36,13 @@
         android:layout_marginLeft="@android:dimen/notification_large_icon_width"
         android:layout_height="wrap_content" />
 
+
+    <TextView
+        android:id="@+id/hidden"
+        android:textColor="@color/colorAccent"
+        android:layout_width="0sp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@android:dimen/notification_large_icon_width"
+        android:layout_height="0sp" />
+
 </RelativeLayout>
