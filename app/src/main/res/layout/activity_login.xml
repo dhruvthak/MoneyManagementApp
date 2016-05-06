@@ -8,7 +8,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Ui.LoginActivity">
+    tools:context=".Ui.LoginActivity"
+    android:touchscreenBlocksFocus="false">
+
 
     <!-- Login progress -->
     <ProgressBar
@@ -28,8 +30,9 @@
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -45,7 +48,8 @@
                     android:imeOptions="actionNext"
                     android:imeActionId="@+id/ime_login_email"
                     android:imeActionLabel="@string/ime_next"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:textIsSelectable="false" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -63,7 +67,8 @@
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textIsSelectable="false" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -90,7 +95,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/forgot_password"
-                android:gravity="center_horizontal" />
+                    android:gravity="center_horizontal"
+                    android:textSize="15dp" />
 
         </LinearLayout>
     </ScrollView>

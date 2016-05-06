@@ -3,7 +3,6 @@ package app.buzzboy.com.moneymanagement.Ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -13,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -22,12 +22,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 
 import app.buzzboy.com.moneymanagement.Application.Person;
-import app.buzzboy.com.moneymanagement.Connectivity.FBase;
 import app.buzzboy.com.moneymanagement.R;
 import app.buzzboy.com.moneymanagement.Utils.Constants;
+import app.buzzboy.com.moneymanagement.Utils.DialogContainer;
 import app.buzzboy.com.moneymanagement.Utils.LogUtils;
 import app.buzzboy.com.moneymanagement.Utils.UserDataGrabberUtils;
 
@@ -43,14 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
+    /*
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
@@ -63,7 +58,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private View mRegister;
     private View mForgotPassView;
     private View mEmailSignInView;
-    Firebase myFireBRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +65,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         // Email Field
         mEmailView = (AutoCompleteTextView) findViewById(R.id.login_Email);
 
-        myFireBRef.setAndroidContext(this);
         // Register Button
         mRegister = findViewById(R.id.login_register);
 
@@ -217,26 +211,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            Person p = new Person();
-            p.setEmail(email);
-            p.setPass(password);
+            //showProgress(true);
 
-
-            myFireBRef = new Firebase(Constants.myFireBRef);
-            myFireBRef.child("Person").setValue(p);
-            /*mAuthTask = new UserLoginTask(email, password, getApplicationContext());
+            mAuthTask = new UserLoginTask(email, password);
             if(Build.VERSION.SDK_INT >= 11){
                 mAuthTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
             else{
                 mAuthTask.execute((Void) null);
-            }*/
+            }
 
         }
     }
 
     private boolean isEmailValid(String email) {
+
         // Check if Email id is valid and return result
         return email.equals("null") || android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -290,16 +279,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         Person p;
-        FBase fobject;
-        String result;
-        String mail;
-        String pass;
         Firebase myFireBRef;
-        String status = null;
+        Boolean status;
+        int error;
 
-        UserLoginTask(String email, String password, Context ctx) {
-            //mail = p.getEmail();
-            //pass = p.getPass();
+        UserLoginTask(String email, String password) {
+            p = new Person();
+            p.setEmail(email);
+            p.setPass(password);
+            myFireBRef = new Firebase(Constants.FIREBASE_URL);
+            status = false;
         }
 
         @Override
@@ -307,25 +296,66 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             // TODO: attempt authentication against a network service.
 
             try {
+                // Create a handler to handle the result of the authentication
+                Firebase.AuthResultHandler authResultHandler = new Firebase.AuthResultHandler() {
+                    @Override
+                    public void onAuthenticated(AuthData authData) {
+                        // Authenticated successfully with payload authData
+                        Log.d("onAuthenticated", "onAuthenticated: Authenticated successfully with payload authData");
+                        status = true;
+
+                        Intent view = new Intent(LoginActivity.this, TransactionsView.class);
+                        view.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        Toast.makeText(getApplicationContext(), "User Successfully logged with Uid:=" + status, Toast.LENGTH_LONG).show();
+                        startActivity(view);
+                    }
+
+                    @Override
+                    public void onAuthenticationError(FirebaseError firebaseError) {
+                        // Authenticated failed with error Firebase Error
+
+                        status = false;
+                        error = firebaseError.getCode();
+                        Log.d("on Authentication error", "on Authentication error: authentication failed " + firebaseError.getMessage());
+
+                        DialogContainer dc;
+
+                        switch (error) {
+
+                            case FirebaseError.USER_DOES_NOT_EXIST:
+                                // handle a non existing user
+                                dc = new DialogContainer(LoginActivity.this, R.string.user_does_not_exist);
+                                dc.show();
+                                break;
+                            case FirebaseError.INVALID_PASSWORD:
+                                // handle an invalid password
+                                dc = new DialogContainer(LoginActivity.this, R.string.invalid_pass);
+                                dc.show();
+                                break;
+                            default:
+                                // handle other errors
+                                dc = new DialogContainer(LoginActivity.this, R.string.some_error);
+                                dc.show();
+                                break;
+                        }
+                    }
+                };
+
+                myFireBRef.authWithPassword(p.getEmail(), p.getPass(), authResultHandler);
+                //myFireBRef.child("Person").setValue(p);
 
             } catch (Exception e) {
-                LogUtils.log("Error", e.getMessage());
+                LogUtils.log("Error is ", e.getMessage());
                 return false;
             }
 
-            return true;
+            return status;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
-            if (success) {
-                finish();
-                Toast.makeText(getApplicationContext(), "It Worked", Toast.LENGTH_LONG).show();
-            } else {
-            }
         }
     }
 }

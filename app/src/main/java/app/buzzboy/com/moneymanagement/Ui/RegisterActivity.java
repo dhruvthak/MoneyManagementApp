@@ -3,10 +3,9 @@ package app.buzzboy.com.moneymanagement.Ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -17,7 +16,6 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -27,23 +25,29 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
+import app.buzzboy.com.moneymanagement.Application.Person;
 import app.buzzboy.com.moneymanagement.R;
+import app.buzzboy.com.moneymanagement.Utils.Constants;
+import app.buzzboy.com.moneymanagement.Utils.DialogContainer;
+import app.buzzboy.com.moneymanagement.Utils.LogUtils;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A Register screen that offers Register via email/password.
  */
-public class RegisterActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>,OnClickListener {
-
+public class RegisterActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
 
     /**
@@ -68,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private EditText mPasswordView;
     private View mProgressView;
     private View mRegisterFormView;
-    private Button dob_picker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,8 +105,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         mRegisterFormView = findViewById(R.id.Register_form);
         mProgressView = findViewById(R.id.Register_progress);
-        dob_picker= (Button) findViewById(R.id.register_datePicker);
-        dob_picker.setOnClickListener(showDatePickerDialog);
+
     }
 
     private void populateAutoComplete() {
@@ -206,7 +209,11 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // perform the user Register attempt.
             showProgress(true);
             mAuthTask = new UserRegisterTask(email, password);
-            mAuthTask.execute((Void) null);
+            if (Build.VERSION.SDK_INT >= 11) {
+                mAuthTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            } else {
+                mAuthTask.execute((Void) null);
+            }
         }
     }
 
@@ -312,25 +319,25 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         int IS_PRIMARY = 1;
     }
 
-    public OnClickListener showDatePickerDialog = new OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            DialogFragment df = new DatePickerFragment();
-            df.show(getSupportFragmentManager(),"datePicker");
-        }
-    };
+
     /**
      * Represents an asynchronous Register/registration task used to authenticate
      * the user.
      */
     public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
+        Person p;
+        Firebase myFireBRef;
+        boolean status;
+        int error;
 
         UserRegisterTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
+            p = new Person();
+            p.setEmail(email);
+            p.setPass(password);
+            myFireBRef = new Firebase(Constants.FIREBASE_URL);
+            status = false;
+            error = 0;
         }
 
         @Override
@@ -338,22 +345,49 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // TODO: attempt authentication against a network service.
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                myFireBRef.child("Person");
+
+                myFireBRef.createUser(p.getEmail(), p.getPass(), new Firebase.ValueResultHandler<Map<String, Object>>() {
+                    @Override
+                    public void onSuccess(Map<String, Object> result) {
+                        LogUtils.log("Success", "Successfully created user account with uid: " + result.get("uid"));
+                        result.get("uid").toString();
+                        status = true;
+                        //finish();
+                        Intent view = new Intent(RegisterActivity.this, LoginActivity.class);
+                        view.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        Toast.makeText(getApplicationContext(), "User Successfully registered with Uid:=" + status, Toast.LENGTH_LONG).show();
+                        startActivity(view);
+                    }
+
+                    @Override
+                    public void onError(FirebaseError firebaseError) {
+                        // there was an error
+                        status = false;
+                        error = firebaseError.getCode();
+                        firebaseError.getMessage();
+
+                        DialogContainer dc;
+                        switch (error) {
+                            case FirebaseError.EMAIL_TAKEN:
+                                // Email already exist error
+                                dc = new DialogContainer(RegisterActivity.this, R.string.email_already_exist);
+                                dc.show();
+                                break;
+                            default:
+                                // Something went wrong, please try again later error
+                                dc = new DialogContainer(RegisterActivity.this, R.string.some_error);
+                                dc.show();
+                                break;
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                status = false;
                 return false;
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
             // TODO: Register the new account here.
-            return true;
+            return status;
         }
 
         @Override
@@ -362,10 +396,10 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             showProgress(false);
 
             if (success) {
-                finish();
+
+
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+
             }
         }
 
@@ -374,28 +408,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             mAuthTask = null;
             showProgress(false);
         }
-    }
 
-    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
-        public Dialog onCreateDialog(Bundle savedInstance){
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            return new DatePickerDialog(getActivity(), this,year,month,day);
-        }
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            // do something with the date choosen by the user.
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-
-        }
     }
 }
