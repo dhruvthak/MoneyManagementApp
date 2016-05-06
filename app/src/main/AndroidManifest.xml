@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-
     <application
         android:name=".Connectivity.AppSupport"
         android:allowBackup="true"
@@ -51,11 +50,11 @@
         <activity
             android:name=".Ui.AddTransactionActivity"
             android:label="@string/title_add_transcations_view" />
-
         <activity
             android:name=".Ui.CategorySelection.CategorySelectionMainActivity"
             android:label="Select Category"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Ui.TaxEstimatorActivity"></activity>
     </application>
 
 </manifest>

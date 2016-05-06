@@ -160,4 +160,12 @@ public class Transaction {
             trans_ref.setValue(this);
         }
     }
+
+    public void remove(String s) {
+        if (!s.equals(null)) {
+            Firebase trans_ref = new Firebase(s);
+
+            trans_ref.removeValue();
+        }
+    }
 }

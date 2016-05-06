@@ -72,7 +72,7 @@ public class TransactionsView extends AppCompatActivity
             @Override
             public void populateViewHolder(TransactionViewHolder tv, Transaction t, int position) {
 
-                tv.nameText2.setText(Integer.toString(t.getAmount()), TextView.BufferType.NORMAL);
+                tv.nameText2.setText("$" + Integer.toString(t.getAmount()), TextView.BufferType.NORMAL);
                 tv.nameText4.setText(t.getCategory(), TextView.BufferType.NORMAL);
                 tv.nameTextHidden.setText(String.valueOf(this.getRef(position)), TextView.BufferType.NORMAL);
             }
@@ -153,15 +153,14 @@ public class TransactionsView extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
+//        } else if (id == R.id.nav_manage) {
+//
+//        } else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
+//
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

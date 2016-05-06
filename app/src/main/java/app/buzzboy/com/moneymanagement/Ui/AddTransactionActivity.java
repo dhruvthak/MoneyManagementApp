@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
     EditText loc;
     boolean status_flag = false;
     String query;
+    Button destruct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,13 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
                 }
             }
         });
-
+        destruct = (Button) findViewById(R.id.delete);
+        destruct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteEntry();
+            }
+        });
         note = (EditText) findViewById(R.id.note_multi_line);
         cat_selection.setKeyListener(null);
         displayDate = (EditText) findViewById(R.id.trans_date);
@@ -147,7 +155,6 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
                                 location.put("lat", Double.toString(lat));
                                 location.put("lon", Double.toString(lon));
 
-
                                 //handler.post(this);
                                 Transaction t = new Transaction(Integer.parseInt(amt.getText().toString()), cat_selection.getText().toString(), note.getText().toString(), displayDate.getText().toString(), location);
                                 boolean result = t.postTransaction();
@@ -202,8 +209,17 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
-
             return new DatePickerDialog(getActivity(), (AddTransactionActivity) getActivity(), year, month, day);
+        }
+    }
+
+    public void deleteEntry() {
+        if (status_flag) {
+            Transaction t = new Transaction(Integer.parseInt(amt.getText().toString()), cat_selection.getText().toString(), note.getText().toString(), displayDate.getText().toString(), null);
+            t.remove(query);
+            finish();
+        } else {
+            finish();
         }
     }
 }
