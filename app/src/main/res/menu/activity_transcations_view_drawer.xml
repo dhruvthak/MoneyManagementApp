@@ -6,12 +6,12 @@
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"
             android:title="Transactions" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Tax Estimater" />
-    </group>
 
+    </group>
+    <!--<item
+        android:id="@+id/nav_gallery"
+        android:icon="@drawable/ic_menu_gallery"
+        android:title="Tax Estimater" />-->
     <!--<item android:title="Communicate">-->
     <!--<menu>-->
     <!--<item-->

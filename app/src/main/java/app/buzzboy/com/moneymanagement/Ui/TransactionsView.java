@@ -151,9 +151,10 @@ public class TransactionsView extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } //
+        // else if (id == R.id.nav_gallery) {
 
-        }
+        //}
 //        } else if (id == R.id.nav_manage) {
 //
 //        } else if (id == R.id.nav_share) {
@@ -183,7 +184,6 @@ public class TransactionsView extends AppCompatActivity
             nameTextHidden = (TextView) itemView.findViewById(R.id.hidden);
         }
     }
-
 
     public interface ClickListener {
         void onClick(View view, int position);
