@@ -8,10 +8,10 @@
             android:title="Transactions" />
 
     </group>
-    <!--<item
+    <item
         android:id="@+id/nav_gallery"
         android:icon="@drawable/ic_menu_gallery"
-        android:title="Tax Estimater" />-->
+        android:title="Tax Estimater" />
     <!--<item android:title="Communicate">-->
     <!--<menu>-->
     <!--<item-->

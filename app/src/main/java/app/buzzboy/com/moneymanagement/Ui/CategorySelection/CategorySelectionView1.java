@@ -1,6 +1,10 @@
 package app.buzzboy.com.moneymanagement.Ui.CategorySelection;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Path;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,15 +18,13 @@ import app.buzzboy.com.moneymanagement.R;
 public class CategorySelectionView1 extends Fragment implements CustomAdapter.AdapterCallback {
 
     ListView list;
-    String[] names = {"Salary", "Gifts", "Selling", "Interest Received"};
+    String[] names = {"Salary", "Gifts", "Interest Received"};
     IFragmentToActivity mCallback;
     CustomAdapter.AdapterCallback mAdapterCallback;
     int[] img_list = {
-            R.drawable.ic_add_location_black_36dp,
-            R.drawable.ic_add_location_black_36dp,
-            R.drawable.ic_add_location_black_36dp,
-            R.drawable.ic_add_location_black_36dp,
-            R.drawable.ic_add_location_black_36dp
+            R.mipmap.ic_salary,
+            R.mipmap.ic_gift,
+            R.mipmap.ic_loan
     };
 
 
@@ -70,5 +72,26 @@ public class CategorySelectionView1 extends Fragment implements CustomAdapter.Ad
         return view;
     }
 
+    public Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
+        int targetWidth = 50;
+        int targetHeight = 50;
+        Bitmap targetBitmap = Bitmap.createBitmap(targetWidth,
+                targetHeight, Bitmap.Config.ARGB_8888);
 
+        Canvas canvas = new Canvas(targetBitmap);
+        Path path = new Path();
+        path.addCircle(((float) targetWidth - 1) / 2,
+                ((float) targetHeight - 1) / 2,
+                (Math.min(((float) targetWidth),
+                        ((float) targetHeight)) / 2),
+                Path.Direction.CCW);
+
+        canvas.clipPath(path);
+        Bitmap sourceBitmap = scaleBitmapImage;
+        canvas.drawBitmap(sourceBitmap,
+                new Rect(0, 0, sourceBitmap.getWidth(),
+                        sourceBitmap.getHeight()),
+                new Rect(0, 0, targetWidth, targetHeight), null);
+        return targetBitmap;
+    }
 }

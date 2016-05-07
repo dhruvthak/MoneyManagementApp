@@ -19,11 +19,8 @@ public class CategorySelectionView3 extends Fragment implements CustomAdapter.Ad
     IFragmentToActivity mCallback;
 
     int[] img_list = {
-            R.drawable.ic_add_location_black_36dp,
-            R.drawable.ic_add_location_black_36dp,
-            R.drawable.ic_add_location_black_36dp,
-            R.drawable.ic_add_location_black_36dp,
-            R.drawable.ic_add_location_black_36dp
+            R.mipmap.ic_loan,
+            R.mipmap.ic_debt
     };
 
     public CategorySelectionView3() {

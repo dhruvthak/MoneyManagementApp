@@ -15,16 +15,15 @@ public class CategorySelectionView2 extends Fragment implements CustomAdapter.Ad
 
     ListView list;
     int[] img_list = {
-            R.drawable.ic_add_location_black_36dp,
-            R.drawable.ic_add_location_black_36dp,
-            R.drawable.ic_add_location_black_36dp,
-            R.drawable.ic_add_location_black_36dp,
-            R.drawable.ic_add_location_black_36dp
+            R.mipmap.ic_shopping,
+            R.mipmap.ic_friends,
+            R.mipmap.ic_health,
+            R.mipmap.ic_education
     };
     CustomAdapter.AdapterCallback mAdapterCallback;
     IFragmentToActivity mCallback;
 
-    public String[] names = {"Loan", "Debt"};
+    public String[] names = {"Shopping", "Friends", "Health", "Education"};
 
     public CategorySelectionView2() {
         // Required empty public constructor

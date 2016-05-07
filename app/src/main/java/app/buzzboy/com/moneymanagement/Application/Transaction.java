@@ -11,7 +11,7 @@ import java.util.Map;
  * Created by Dhruv Thakkar on 5/4/2016.
  */
 public class Transaction {
-    private int amount;
+    private double amount;
     private String category;
     private String note;
     private String date;
@@ -27,20 +27,8 @@ public class Transaction {
     public Transaction() {
     }
 
-    /*public Transaction(){
-        current_date = new Date();
-        sdf = new SimpleDateFormat("MM/dd/YYYY");
-        amount = 0;
-        category = "null";
-        note = "null";
-        date = sdf.format(current_date);
-        location = new HashMap<>();
-            location.put("lat","000");
-            location.put("lon","000");
-        user_name = "null";
-    }*/
 
-    public Transaction(int amount, String category, String note, String date, Map location) {
+    public Transaction(double amount, String category, String note, String date, Map location) {
         this.amount = amount;
         this.category = category;
         this.note = note;
@@ -51,7 +39,7 @@ public class Transaction {
 
     public boolean postTransaction() {
 
-        Firebase trans_ref = ref.child("Transactions");
+        Firebase trans_ref = ref.child("Transactions/" + ref.getAuth().getUid());
         //open request
         //send data
         trans_ref.push().setValue(this);
@@ -73,11 +61,11 @@ public class Transaction {
         return all_trans;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

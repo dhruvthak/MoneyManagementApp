@@ -2,6 +2,14 @@ package app.buzzboy.com.moneymanagement.Ui.CategorySelection;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Path;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,5 +91,73 @@ public class CustomAdapter extends BaseAdapter {
 
     public void sendSelectedItemtoFragment() {
 
+    }
+
+    public void setImageToHolder(String cat, ImageView v) {
+        int value = 0;
+
+        switch (cat) {
+            case "Interest Received":
+                value = R.mipmap.ic_loan;
+                break;
+            case "Debt":
+                value = R.mipmap.ic_debt;
+                break;
+            case "Education":
+                value = R.mipmap.ic_education;
+                break;
+            case "Friends":
+                value = R.mipmap.ic_friends;
+                break;
+            case "Health":
+                value = R.mipmap.ic_health;
+                break;
+            case "Loan":
+                value = R.mipmap.ic_loan;
+                break;
+            case "Shopping":
+                value = R.mipmap.ic_shopping;
+                break;
+            case "Gifts":
+                value = R.mipmap.ic_gift;
+                break;
+            case "Salary":
+                value = R.mipmap.ic_salary;
+                break;
+            default:
+                break;
+        }
+        try {
+            Drawable Icon = ResourcesCompat.getDrawable(context.getResources(), value, null);
+            //Drawable bg = ResourcesCompat.getDrawable(getResources(), R.drawable.oval, null);
+            Bitmap icon = BitmapFactory.decodeResource(context.getResources(), value);
+            v.setImageBitmap(getRoundedShape(icon));
+            //v.setBackground(bg);
+        } catch (Exception e) {
+            Log.d("Exception", e.toString());
+        }
+    }
+
+    public Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
+        int targetWidth = 50;
+        int targetHeight = 50;
+        Bitmap targetBitmap = Bitmap.createBitmap(targetWidth,
+                targetHeight, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(targetBitmap);
+        Path path = new Path();
+        path.addCircle(((float) targetWidth - 1) / 2,
+                ((float) targetHeight - 1) / 2,
+                (Math.min(((float) targetWidth),
+                        ((float) targetHeight)) / 2),
+                Path.Direction.CCW);
+
+        canvas.clipPath(path);
+        Bitmap sourceBitmap = scaleBitmapImage;
+        canvas.drawBitmap(sourceBitmap,
+                new Rect(0, 0, sourceBitmap.getWidth(),
+                        sourceBitmap.getHeight()),
+                new Rect(0, 0, targetWidth, targetHeight), null);
+        return targetBitmap;
     }
 }

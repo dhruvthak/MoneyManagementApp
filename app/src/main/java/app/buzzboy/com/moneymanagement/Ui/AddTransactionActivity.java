@@ -5,6 +5,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Path;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
@@ -102,7 +106,10 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
         if (requestCode == 100) {
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getStringExtra("result");
+                int img = setImageToHolder(result);
                 cat_selection.setText(result);
+                //Log.d("img",""+img);
+                //cat_selection.setCompoundDrawablesWithIntrinsicBounds(img, 0, 0, 0);
                 //cat_selection.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_add_location_black_36dp, 0, 0, 0);
 
             }
@@ -146,7 +153,7 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
 
 
                                 //handler.post(this);
-                                Transaction t = new Transaction(Integer.parseInt(amt.getText().toString()), cat_selection.getText().toString(), note.getText().toString(), displayDate.getText().toString(), null);
+                                Transaction t = new Transaction(Double.parseDouble(amt.getText().toString()), cat_selection.getText().toString(), note.getText().toString(), displayDate.getText().toString(), null);
                                 t.modify(query);
                             } else {
                                 Map location = new HashMap();
@@ -156,7 +163,7 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
                                 location.put("lon", Double.toString(lon));
 
                                 //handler.post(this);
-                                Transaction t = new Transaction(Integer.parseInt(amt.getText().toString()), cat_selection.getText().toString(), note.getText().toString(), displayDate.getText().toString(), location);
+                                Transaction t = new Transaction(Double.parseDouble(amt.getText().toString()), cat_selection.getText().toString(), note.getText().toString(), displayDate.getText().toString(), location);
                                 boolean result = t.postTransaction();
                             }
                         } catch (Exception e) {
@@ -215,11 +222,68 @@ public class AddTransactionActivity extends AppCompatActivity implements DatePic
 
     public void deleteEntry() {
         if (status_flag) {
-            Transaction t = new Transaction(Integer.parseInt(amt.getText().toString()), cat_selection.getText().toString(), note.getText().toString(), displayDate.getText().toString(), null);
+            Transaction t = new Transaction(Double.parseDouble(amt.getText().toString()), cat_selection.getText().toString(), note.getText().toString(), displayDate.getText().toString(), null);
             t.remove(query);
             finish();
         } else {
             finish();
         }
+    }
+
+    public int setImageToHolder(String cat) {
+        int value = 0;
+
+        switch (cat) {
+            case "Debt":
+                value = R.mipmap.ic_debt;
+                break;
+            case "Education":
+                value = R.mipmap.ic_education;
+                break;
+            case "Friends":
+                value = R.mipmap.ic_friends;
+                break;
+            case "Health":
+                value = R.mipmap.ic_health;
+                break;
+            case "Loan":
+                value = R.mipmap.ic_loan;
+                break;
+            case "Shopping":
+                value = R.mipmap.ic_shopping;
+                break;
+            case "Gifts":
+                value = R.mipmap.ic_gift;
+                break;
+            case "Salary":
+                value = R.mipmap.ic_salary;
+                break;
+            default:
+                break;
+        }
+        return value;
+    }
+
+    public Bitmap getRoundedShape(Bitmap scaleBitmapImage) {
+        int targetWidth = 50;
+        int targetHeight = 50;
+        Bitmap targetBitmap = Bitmap.createBitmap(targetWidth,
+                targetHeight, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(targetBitmap);
+        Path path = new Path();
+        path.addCircle(((float) targetWidth - 1) / 2,
+                ((float) targetHeight - 1) / 2,
+                (Math.min(((float) targetWidth),
+                        ((float) targetHeight)) / 2),
+                Path.Direction.CCW);
+
+        canvas.clipPath(path);
+        Bitmap sourceBitmap = scaleBitmapImage;
+        canvas.drawBitmap(sourceBitmap,
+                new Rect(0, 0, sourceBitmap.getWidth(),
+                        sourceBitmap.getHeight()),
+                new Rect(0, 0, targetWidth, targetHeight), null);
+        return targetBitmap;
     }
 }
