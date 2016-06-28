@@ -1,1 +1,3 @@
-Money Management App
+ManageMaMoney
+
+Experimented with a book keeping journal for day-to-day expenses which is backed by FireBase, a realtime database and implemented over Android Marshmallow (6.0).
